@@ -1,0 +1,93 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // ── Build ──────────────────────────────────────────────────────────
+    {
+      "label": "build (Debug)",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/TournamentMastery.csproj",
+        "--configuration", "Debug",
+        "--nologo"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "build (Release)",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/TournamentMastery.csproj",
+        "--configuration", "Release",
+        "--nologo"
+      ],
+      "group": "build",
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+
+    // ── Clean ──────────────────────────────────────────────────────────
+    {
+      "label": "clean",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "clean",
+        "${workspaceFolder}/TournamentMastery.csproj",
+        "--nologo"
+      ],
+      "group": "build",
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+
+    // ── Deploy ─────────────────────────────────────────────────────────
+    // Builds Release and copies output to your Bannerlord Modules folder.
+    // Set BANNERLORD_GAME_DIR in your system environment before running.
+    {
+      "label": "deploy (Release → Bannerlord Modules)",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/TournamentMastery.csproj",
+        "--configuration", "Release",
+        "--nologo",
+        "-p:DeployAfterBuild=true"
+      ],
+      "group": "build",
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "Builds and deploys TournamentMastery.dll + SubModule.xml to %BANNERLORD_GAME_DIR%\\Modules\\TournamentMastery"
+    },
+
+    // ── Rebuild ────────────────────────────────────────────────────────
+    {
+      "label": "rebuild (Release)",
+      "dependsOrder": "sequence",
+      "dependsOn": ["clean", "build (Release)"],
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

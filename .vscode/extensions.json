@@ -1,0 +1,18 @@
+{
+  "recommendations": [
+    // C# / .NET
+    "ms-dotnettools.csharp",
+    "ms-dotnettools.csdevkit",
+    "ms-dotnettools.vscode-dotnet-runtime",
+    // NuGet / Project helpers
+    "aliasadidev.nugetpackagemanagergui",
+    // XML (SubModule.xml editing)
+    "redhat.vscode-xml",
+    // Spell-check
+    "streetsidesoftware.code-spell-checker",
+    // EditorConfig support
+    "editorconfig.editorconfig",
+    // Git helpers
+    "eamodio.gitlens"
+  ]
+}

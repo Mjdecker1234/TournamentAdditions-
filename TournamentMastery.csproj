@@ -7,16 +7,26 @@
     <AssemblyName>TournamentMastery</AssemblyName>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <!--
-      Set BANNERLORD_GAME_DIR in your environment or user .props to point at your
+      Set BANNERLORD_GAME_DIR in your system environment to point at your
       Mount &amp; Blade II Bannerlord installation, e.g.:
-        C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord
+        Windows: C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord
+      You can also override BannerlordDir in a local Directory.Build.props.
     -->
     <BannerlordDir Condition="'$(BannerlordDir)' == ''">$(BANNERLORD_GAME_DIR)</BannerlordDir>
     <BannerlordModulesDir>$(BannerlordDir)\Modules</BannerlordModulesDir>
     <BannerlordBinDir>$(BannerlordDir)\bin\Win64_Shipping_Client</BannerlordBinDir>
+    <!-- Deploy output path inside the Bannerlord Modules folder -->
+    <ModuleDeployDir>$(BannerlordModulesDir)\TournamentMastery</ModuleDeployDir>
+    <!-- Pass -p:DeployAfterBuild=true from CLI or VS Code task to trigger deploy -->
+    <DeployAfterBuild Condition="'$(DeployAfterBuild)' == ''">false</DeployAfterBuild>
+    <!-- Suppress Optimize in Debug to keep symbols intact for the debugger -->
+    <Optimize Condition="'$(Configuration)' == 'Release'">true</Optimize>
+    <Optimize Condition="'$(Configuration)' == 'Debug'">false</Optimize>
+    <!-- Always emit a PDB so the debugger can step into source -->
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <!-- ===== Bannerlord Core References ===== -->
@@ -85,5 +95,47 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
+
+  <!-- ===== Post-Build Deploy ===== -->
+  <!--
+    Automatically deploys TournamentMastery.dll, its PDB, and SubModule.xml
+    to your Bannerlord Modules folder after a successful build.
+
+    Triggered when DeployAfterBuild=true:
+      - Via VS Code task: "deploy (Release → Bannerlord Modules)"
+      - Via CLI: dotnet build -p:DeployAfterBuild=true
+      - Automatically on every build: set <DeployAfterBuild>true</DeployAfterBuild> above.
+
+    Requires BANNERLORD_GAME_DIR to be set in your environment.
+  -->
+  <Target Name="DeployMod" AfterTargets="AfterBuild" Condition="'$(DeployAfterBuild)' == 'true' AND '$(BannerlordDir)' != ''">
+    <Message Text="Deploying TournamentMastery to $(ModuleDeployDir) ..." Importance="high"/>
+
+    <!-- Create target directories if they don't exist -->
+    <MakeDir Directories="$(ModuleDeployDir)\bin\Win64_Shipping_Client"/>
+
+    <!-- Copy the compiled assembly and its debug symbols -->
+    <Copy
+      SourceFiles="$(OutputPath)$(AssemblyName).dll"
+      DestinationFolder="$(ModuleDeployDir)\bin\Win64_Shipping_Client"
+      SkipUnchangedFiles="true"/>
+    <Copy
+      SourceFiles="$(OutputPath)$(AssemblyName).pdb"
+      DestinationFolder="$(ModuleDeployDir)\bin\Win64_Shipping_Client"
+      SkipUnchangedFiles="true"
+      Condition="Exists('$(OutputPath)$(AssemblyName).pdb')"/>
+
+    <!-- Copy the module manifest -->
+    <Copy
+      SourceFiles="$(MSBuildProjectDirectory)\SubModule.xml"
+      DestinationFolder="$(ModuleDeployDir)"
+      SkipUnchangedFiles="true"/>
+
+    <Message Text="Deploy complete. Restart Bannerlord to pick up changes." Importance="high"/>
+  </Target>
+
+  <Target Name="WarnMissingGameDir" AfterTargets="AfterBuild" Condition="'$(DeployAfterBuild)' == 'true' AND '$(BannerlordDir)' == ''">
+    <Warning Text="DeployAfterBuild=true but BANNERLORD_GAME_DIR is not set. Skipping deploy. Set the environment variable and rebuild."/>
+  </Target>
 
 </Project>

@@ -13,7 +13,11 @@ packages/
 .idea/
 
 ## VS Code
-.vscode/
+# Commit .vscode/ settings — only exclude personal local overrides
+.vscode/*.log
+
+## Local developer path overrides (copy Directory.Build.props.example → Directory.Build.props)
+Directory.Build.props
 
 ## OS junk
 .DS_Store

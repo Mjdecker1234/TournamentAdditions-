@@ -1,0 +1,17 @@
+<!--
+  Directory.Build.props — Local developer overrides (NOT committed to source control).
+
+  Copy this file to your repo root and set BannerlordDir to your Bannerlord installation.
+  This file is gitignored so your local path never appears in commits.
+
+  Example:
+    <BannerlordDir>C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord</BannerlordDir>
+
+  Alternatively, set the BANNERLORD_GAME_DIR environment variable (works without this file).
+-->
+<Project>
+  <PropertyGroup>
+    <!-- Uncomment and set the path below if you prefer not to use an environment variable: -->
+    <!-- <BannerlordDir>C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord</BannerlordDir> -->
+  </PropertyGroup>
+</Project>
