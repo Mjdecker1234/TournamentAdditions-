@@ -5,7 +5,12 @@ obj/
 *.suo
 .vs/
 
-## Module build output (DLL is compiled here; folder structure is tracked)
+## Module build output — keep the folder structure, ignore compiled binaries
+!Modules/
+!Modules/TournamentMastery/
+!Modules/TournamentMastery/bin/
+!Modules/TournamentMastery/bin/Win64_Shipping_Client/
+!Modules/TournamentMastery/bin/Win64_Shipping_Client/.gitkeep
 Modules/TournamentMastery/bin/Win64_Shipping_Client/*.dll
 Modules/TournamentMastery/bin/Win64_Shipping_Client/*.pdb
 
