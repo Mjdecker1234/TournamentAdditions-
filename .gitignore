@@ -5,6 +5,10 @@ obj/
 *.suo
 .vs/
 
+## Module build output (DLL is compiled here; folder structure is tracked)
+Modules/TournamentMastery/bin/Win64_Shipping_Client/*.dll
+Modules/TournamentMastery/bin/Win64_Shipping_Client/*.pdb
+
 ## NuGet
 *.nupkg
 packages/

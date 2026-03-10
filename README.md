@@ -121,10 +121,24 @@ Known mods that may conflict with specific features:
 
 ## Building from Source
 
-1. Set `BANNERLORD_GAME_DIR` to your Bannerlord installation path.
-2. Open `TournamentMastery.csproj` in Visual Studio 2022 or Rider.
+### Quick Start
+
+1. Set the `BANNERLORD_GAME_DIR` environment variable to your Bannerlord installation path:
+   ```
+   # Windows (PowerShell)
+   $env:BANNERLORD_GAME_DIR = "C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord"
+
+   # Windows (Command Prompt)
+   set BANNERLORD_GAME_DIR=C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord
+   ```
+2. Open `TournamentMastery.csproj` in Visual Studio 2022 or Rider (or run `dotnet build`).
 3. Build in `Release` configuration.
-4. Copy the `bin/Release/net472/TournamentMastery.dll` to `Modules/TournamentMastery/bin/Win64_Shipping_Client/`.
+
+### What Happens After Building
+
+- The compiled `TournamentMastery.dll` is placed in **`Modules/TournamentMastery/bin/Win64_Shipping_Client/`** inside this repository — a complete, ready-to-transfer module folder.
+- If `BANNERLORD_GAME_DIR` is set, the mod is **automatically deployed** to your Bannerlord installation. Just enable it in the launcher.
+- If `BANNERLORD_GAME_DIR` is not set, simply copy the **`Modules/TournamentMastery/`** folder from this repository into your Bannerlord `Modules/` directory.
 
 ---
 
