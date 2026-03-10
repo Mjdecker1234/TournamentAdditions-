@@ -22,9 +22,8 @@
     },
 
     // ── Launch Bannerlord directly (Windows only) ──────────────────────
-    // Set BANNERLORD_GAME_DIR in your system environment.
-    // This starts Bannerlord.exe with the _MODULES_ flag pointing to your
-    // mod so you can debug from launch.
+    // Pre-configured for: F:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord
+    // Change "program" and "cwd" below if your install path differs.
     {
       "name": "Launch Bannerlord (singleplayer)",
       "type": "coreclr",
@@ -36,6 +35,9 @@
         "_MODULES_*Native*SandBoxCore*Sandbox*CustomBattle*StoryMode*Bannerlord.Harmony*Bannerlord.ButterLib*Bannerlord.MBOptionScreen*TournamentMastery*_MODULES_"
       ],
       "cwd": "${env:BANNERLORD_GAME_DIR}",
+      "env": {
+        "BANNERLORD_GAME_DIR": "F:\\SteamLibrary\\steamapps\\common\\Mount & Blade II Bannerlord"
+      },
       "stopAtEntry": false,
       "justMyCode": false,
       "suppressJITOptimizations": true,

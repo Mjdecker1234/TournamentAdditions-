@@ -49,13 +49,23 @@ if (-not (Test-Path $ProjectFile)) {
 # ── Resolve Bannerlord directory ───────────────────────────────────────────────
 $BannerlordDir = $env:BANNERLORD_GAME_DIR
 
+# Pre-configured installation path — used when BANNERLORD_GAME_DIR is not set.
+$DefaultBannerlordDir = 'F:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord'
+
 if ([string]::IsNullOrWhiteSpace($BannerlordDir)) {
-    Write-Host ""
-    Write-Host "BANNERLORD_GAME_DIR is not set." -ForegroundColor Yellow
-    Write-Host "Enter the full path to your Bannerlord installation."
-    Write-Host "  Example: C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord"
-    Write-Host ""
-    $BannerlordDir = Read-Host "Bannerlord path"
+    if (Test-Path $DefaultBannerlordDir) {
+        $BannerlordDir = $DefaultBannerlordDir
+        Write-Host "Using pre-configured Bannerlord path:" -ForegroundColor Cyan
+        Write-Host "  $BannerlordDir"
+        Write-Host ""
+    } else {
+        Write-Host ""
+        Write-Host "BANNERLORD_GAME_DIR is not set and the pre-configured path was not found." -ForegroundColor Yellow
+        Write-Host "Enter the full path to your Bannerlord installation."
+        Write-Host "  Example: F:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord"
+        Write-Host ""
+        $BannerlordDir = Read-Host "Bannerlord path"
+    }
 }
 
 $BannerlordDir = $BannerlordDir.Trim().TrimEnd('\')

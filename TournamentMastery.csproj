@@ -11,8 +11,9 @@
     <!--
       Set BANNERLORD_GAME_DIR in your system environment to point at your
       Mount &amp; Blade II Bannerlord installation, e.g.:
-        Windows: C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord
-      You can also override BannerlordDir in a local Directory.Build.props.
+        F:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord
+      You can also override BannerlordDir in a local Directory.Build.props
+      (copy Directory.Build.props.example → Directory.Build.props — path is pre-filled).
     -->
     <BannerlordDir Condition="'$(BannerlordDir)' == ''">$(BANNERLORD_GAME_DIR)</BannerlordDir>
     <BannerlordModulesDir>$(BannerlordDir)\Modules</BannerlordModulesDir>
