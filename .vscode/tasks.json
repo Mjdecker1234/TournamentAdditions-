@@ -1,0 +1,118 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // ── Build + Deploy (default: Ctrl+Shift+B) ─────────────────────────
+    // Builds Release, then automatically copies TournamentMastery.dll,
+    // its PDB, and SubModule.xml to your Bannerlord Modules folder.
+    // Requires BANNERLORD_GAME_DIR to be set in your system environment.
+    {
+      "label": "build & deploy (Release)",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/TournamentMastery.csproj",
+        "--configuration", "Release",
+        "--nologo",
+        "-p:DeployAfterBuild=true"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "Builds Release and deploys to %BANNERLORD_GAME_DIR%\\Modules\\TournamentMastery automatically"
+    },
+
+    // ── Build only (no deploy) ─────────────────────────────────────────
+    {
+      "label": "build only (Debug)",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/TournamentMastery.csproj",
+        "--configuration", "Debug",
+        "--nologo",
+        "-p:DeployAfterBuild=false"
+      ],
+      "group": "build",
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "Compiles Debug without deploying (useful for quick syntax checks)"
+    },
+    {
+      "label": "build only (Release)",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/TournamentMastery.csproj",
+        "--configuration", "Release",
+        "--nologo",
+        "-p:DeployAfterBuild=false"
+      ],
+      "group": "build",
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "Compiles Release without deploying"
+    },
+
+    // ── Clean ──────────────────────────────────────────────────────────
+    {
+      "label": "clean",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "clean",
+        "${workspaceFolder}/TournamentMastery.csproj",
+        "--nologo"
+      ],
+      "group": "build",
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+
+    // ── Rebuild + Deploy ───────────────────────────────────────────────
+    {
+      "label": "rebuild & deploy (Release)",
+      "dependsOrder": "sequence",
+      "dependsOn": ["clean", "build & deploy (Release)"],
+      "group": "build",
+      "problemMatcher": "$msCompile",
+      "detail": "Clean, rebuild Release, and deploy to Bannerlord Modules folder"
+    },
+
+    // ── Run Install-Mod.ps1 (Windows PowerShell fallback) ─────────────
+    // Alternative to the deploy task for users who prefer a script.
+    {
+      "label": "run Install-Mod.ps1",
+      "type": "process",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy", "Bypass",
+        "-File", "${workspaceFolder}/Install-Mod.ps1"
+      ],
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "Runs Install-Mod.ps1 — builds and deploys using the PowerShell install script"
+    }
+  ]
+}

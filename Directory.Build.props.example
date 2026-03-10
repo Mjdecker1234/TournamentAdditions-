@@ -1,0 +1,16 @@
+<!--
+  Directory.Build.props — Local developer overrides (NOT committed to source control).
+
+  HOW TO USE:
+    1. Copy (or rename) this file to "Directory.Build.props" in the same folder.
+    2. The BannerlordDir below is already set to the correct path — no edits needed.
+    3. Press Ctrl+Shift+B in VS Code (or run Install-Mod.ps1) to build and install.
+
+  This file is gitignored so your local path never appears in commits.
+  Alternatively, set the BANNERLORD_GAME_DIR environment variable (works without this file).
+-->
+<Project>
+  <PropertyGroup>
+    <BannerlordDir>F:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord</BannerlordDir>
+  </PropertyGroup>
+</Project>

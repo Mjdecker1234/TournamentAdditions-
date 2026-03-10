@@ -1,0 +1,147 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <RootNamespace>TournamentMastery</RootNamespace>
+    <AssemblyName>TournamentMastery</AssemblyName>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <!--
+      Set BANNERLORD_GAME_DIR in your system environment to point at your
+      Mount &amp; Blade II Bannerlord installation, e.g.:
+        F:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord
+      You can also override BannerlordDir in a local Directory.Build.props
+      (copy Directory.Build.props.example → Directory.Build.props — path is pre-filled).
+    -->
+    <BannerlordDir Condition="'$(BannerlordDir)' == ''">$(BANNERLORD_GAME_DIR)</BannerlordDir>
+    <BannerlordModulesDir>$(BannerlordDir)\Modules</BannerlordModulesDir>
+    <BannerlordBinDir>$(BannerlordDir)\bin\Win64_Shipping_Client</BannerlordBinDir>
+    <!-- Deploy output path inside the Bannerlord Modules folder -->
+    <ModuleDeployDir>$(BannerlordModulesDir)\TournamentMastery</ModuleDeployDir>
+    <!--
+      DeployAfterBuild — copies TournamentMastery.dll + PDB + SubModule.xml to
+      %BANNERLORD_GAME_DIR%\Modules\TournamentMastery\ after every successful build.
+      Requires BANNERLORD_GAME_DIR to be set (or BannerlordDir in Directory.Build.props).
+      Set to false to disable auto-deploy and copy files manually instead.
+    -->
+    <DeployAfterBuild Condition="'$(DeployAfterBuild)' == ''">true</DeployAfterBuild>
+    <!-- Suppress Optimize in Debug to keep symbols intact for the debugger -->
+    <Optimize Condition="'$(Configuration)' == 'Release'">true</Optimize>
+    <Optimize Condition="'$(Configuration)' == 'Debug'">false</Optimize>
+    <!-- Always emit a PDB so the debugger can step into source -->
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <!-- ===== Bannerlord Core References ===== -->
+  <ItemGroup>
+    <Reference Include="TaleWorlds.CampaignSystem">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.CampaignSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.Core">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.Engine">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.Engine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.Library">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.Library.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.Localization">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.Localization.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.MountAndBlade">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.MountAndBlade.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.MountAndBlade.ViewModelCollection.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.ScreenSystem">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.ScreenSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.InputSystem">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.InputSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.ObjectSystem">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.ObjectSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- ===== Framework Dependencies ===== -->
+  <ItemGroup>
+    <!-- Harmony: Harmony 2.x is bundled inside ButterLib in Bannerlord ecosystem -->
+    <Reference Include="0Harmony">
+      <HintPath>$(BannerlordModulesDir)\Bannerlord.Harmony\bin\Win64_Shipping_Client\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <!-- MCM -->
+    <Reference Include="MCM">
+      <HintPath>$(BannerlordModulesDir)\Bannerlord.MBOptionScreen\bin\Win64_Shipping_Client\MCM.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MCM.Implementation">
+      <HintPath>$(BannerlordModulesDir)\Bannerlord.MBOptionScreen\bin\Win64_Shipping_Client\MCM.Implementation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <!-- ButterLib -->
+    <Reference Include="ButterLib">
+      <HintPath>$(BannerlordModulesDir)\Bannerlord.ButterLib\bin\Win64_Shipping_Client\ButterLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- ===== Post-Build Deploy ===== -->
+  <!--
+    Automatically deploys TournamentMastery.dll, its PDB, and SubModule.xml
+    to your Bannerlord Modules folder after a successful build.
+
+    Triggered when DeployAfterBuild=true:
+      - Via VS Code task: "deploy (Release → Bannerlord Modules)"
+      - Via CLI: dotnet build -p:DeployAfterBuild=true
+      - Automatically on every build: set <DeployAfterBuild>true</DeployAfterBuild> above.
+
+    Requires BANNERLORD_GAME_DIR to be set in your environment.
+  -->
+  <Target Name="DeployMod" AfterTargets="AfterBuild" Condition="'$(DeployAfterBuild)' == 'true' AND '$(BannerlordDir)' != ''">
+    <Message Text="Deploying TournamentMastery to $(ModuleDeployDir) ..." Importance="high"/>
+
+    <!-- Create target directories if they don't exist -->
+    <MakeDir Directories="$(ModuleDeployDir)\bin\Win64_Shipping_Client"/>
+
+    <!-- Copy the compiled assembly and its debug symbols -->
+    <Copy
+      SourceFiles="$(OutputPath)$(AssemblyName).dll"
+      DestinationFolder="$(ModuleDeployDir)\bin\Win64_Shipping_Client"
+      SkipUnchangedFiles="true"/>
+    <Copy
+      SourceFiles="$(OutputPath)$(AssemblyName).pdb"
+      DestinationFolder="$(ModuleDeployDir)\bin\Win64_Shipping_Client"
+      SkipUnchangedFiles="true"
+      Condition="Exists('$(OutputPath)$(AssemblyName).pdb')"/>
+
+    <!-- Copy the module manifest -->
+    <Copy
+      SourceFiles="$(MSBuildProjectDirectory)\SubModule.xml"
+      DestinationFolder="$(ModuleDeployDir)"
+      SkipUnchangedFiles="true"/>
+
+    <Message Text="Deploy complete. Restart Bannerlord to pick up changes." Importance="high"/>
+  </Target>
+
+  <Target Name="WarnMissingGameDir" AfterTargets="AfterBuild" Condition="'$(DeployAfterBuild)' == 'true' AND '$(BannerlordDir)' == ''">
+    <Warning Text="DeployAfterBuild=true but BANNERLORD_GAME_DIR is not set. Skipping deploy. Set the environment variable and rebuild."/>
+  </Target>
+
+</Project>
