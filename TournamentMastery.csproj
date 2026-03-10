@@ -1,0 +1,89 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <RootNamespace>TournamentMastery</RootNamespace>
+    <AssemblyName>TournamentMastery</AssemblyName>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <!--
+      Set BANNERLORD_GAME_DIR in your environment or user .props to point at your
+      Mount &amp; Blade II Bannerlord installation, e.g.:
+        C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord
+    -->
+    <BannerlordDir Condition="'$(BannerlordDir)' == ''">$(BANNERLORD_GAME_DIR)</BannerlordDir>
+    <BannerlordModulesDir>$(BannerlordDir)\Modules</BannerlordModulesDir>
+    <BannerlordBinDir>$(BannerlordDir)\bin\Win64_Shipping_Client</BannerlordBinDir>
+  </PropertyGroup>
+
+  <!-- ===== Bannerlord Core References ===== -->
+  <ItemGroup>
+    <Reference Include="TaleWorlds.CampaignSystem">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.CampaignSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.Core">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.Engine">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.Engine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.Library">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.Library.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.Localization">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.Localization.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.MountAndBlade">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.MountAndBlade.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.MountAndBlade.ViewModelCollection.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.ScreenSystem">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.ScreenSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.InputSystem">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.InputSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.ObjectSystem">
+      <HintPath>$(BannerlordBinDir)\TaleWorlds.ObjectSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- ===== Framework Dependencies ===== -->
+  <ItemGroup>
+    <!-- Harmony: Harmony 2.x is bundled inside ButterLib in Bannerlord ecosystem -->
+    <Reference Include="0Harmony">
+      <HintPath>$(BannerlordModulesDir)\Bannerlord.Harmony\bin\Win64_Shipping_Client\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <!-- MCM -->
+    <Reference Include="MCM">
+      <HintPath>$(BannerlordModulesDir)\Bannerlord.MBOptionScreen\bin\Win64_Shipping_Client\MCM.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MCM.Implementation">
+      <HintPath>$(BannerlordModulesDir)\Bannerlord.MBOptionScreen\bin\Win64_Shipping_Client\MCM.Implementation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <!-- ButterLib -->
+    <Reference Include="ButterLib">
+      <HintPath>$(BannerlordModulesDir)\Bannerlord.ButterLib\bin\Win64_Shipping_Client\ButterLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>
