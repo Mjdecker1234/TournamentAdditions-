@@ -19,8 +19,13 @@
     <BannerlordBinDir>$(BannerlordDir)\bin\Win64_Shipping_Client</BannerlordBinDir>
     <!-- Deploy output path inside the Bannerlord Modules folder -->
     <ModuleDeployDir>$(BannerlordModulesDir)\TournamentMastery</ModuleDeployDir>
-    <!-- Pass -p:DeployAfterBuild=true from CLI or VS Code task to trigger deploy -->
-    <DeployAfterBuild Condition="'$(DeployAfterBuild)' == ''">false</DeployAfterBuild>
+    <!--
+      DeployAfterBuild — copies TournamentMastery.dll + PDB + SubModule.xml to
+      %BANNERLORD_GAME_DIR%\Modules\TournamentMastery\ after every successful build.
+      Requires BANNERLORD_GAME_DIR to be set (or BannerlordDir in Directory.Build.props).
+      Set to false to disable auto-deploy and copy files manually instead.
+    -->
+    <DeployAfterBuild Condition="'$(DeployAfterBuild)' == ''">true</DeployAfterBuild>
     <!-- Suppress Optimize in Debug to keep symbols intact for the debugger -->
     <Optimize Condition="'$(Configuration)' == 'Release'">true</Optimize>
     <Optimize Condition="'$(Configuration)' == 'Debug'">false</Optimize>

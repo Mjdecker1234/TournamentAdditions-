@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     // ── Attach to a running Bannerlord process ─────────────────────────
-    // 1. Build the mod (Ctrl+Shift+B → "build (Debug)") and deploy it.
+    // 1. Press Ctrl+Shift+B (build & deploy) to compile and install the mod.
     // 2. Start Bannerlord normally (with the mod enabled in the launcher).
     // 3. In VS Code press F5 (or Run > Start Debugging) to attach.
     // 4. Breakpoints in your C# source will be hit in the running game.
@@ -29,7 +29,7 @@
       "name": "Launch Bannerlord (singleplayer)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "deploy (Release → Bannerlord Modules)",
+      "preLaunchTask": "build & deploy (Release)",
       "program": "${env:BANNERLORD_GAME_DIR}\\bin\\Win64_Shipping_Client\\Bannerlord.exe",
       "args": [
         "/singleplayer",
