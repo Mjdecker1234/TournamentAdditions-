@@ -1,0 +1,29 @@
+## Build outputs
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+## Module build output — keep the folder structure, ignore compiled binaries
+!Modules/
+!Modules/TournamentMastery/
+!Modules/TournamentMastery/bin/
+!Modules/TournamentMastery/bin/Win64_Shipping_Client/
+!Modules/TournamentMastery/bin/Win64_Shipping_Client/.gitkeep
+Modules/TournamentMastery/bin/Win64_Shipping_Client/*.dll
+Modules/TournamentMastery/bin/Win64_Shipping_Client/*.pdb
+
+## NuGet
+*.nupkg
+packages/
+
+## Rider / JetBrains
+.idea/
+
+## VS Code
+.vscode/
+
+## OS junk
+.DS_Store
+Thumbs.db

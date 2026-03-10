@@ -1,0 +1,32 @@
+<Module>
+  <Name>TournamentMastery</Name>
+  <Id>TournamentMastery</Id>
+  <Version value="v1.0.0"/>
+  <DefaultModule value="false"/>
+  <SingleplayerModule value="true"/>
+  <MultiplayerModule value="false"/>
+  <DependedModules>
+    <DependedModule Id="Native" DependentVersion="v1.0.0" Optional="false"/>
+    <DependedModule Id="SandBoxCore" DependentVersion="v1.0.0" Optional="false"/>
+    <DependedModule Id="Sandbox" DependentVersion="v1.0.0" Optional="false"/>
+    <DependedModule Id="CustomBattle" DependentVersion="v1.0.0" Optional="false"/>
+    <DependedModule Id="StoryMode" DependentVersion="v1.0.0" Optional="false"/>
+    <!-- Framework dependencies -->
+    <DependedModule Id="Bannerlord.Harmony" DependentVersion="v2.3.3" Optional="false"/>
+    <DependedModule Id="Bannerlord.ButterLib" DependentVersion="v2.9.0" Optional="false"/>
+    <DependedModule Id="Bannerlord.MBOptionScreen" DependentVersion="v5.9.1" Optional="false"/>
+    <DependedModule Id="Bannerlord.UIExtenderEx" DependentVersion="v2.9.0" Optional="true"/>
+  </DependedModules>
+  <SubModules>
+    <SubModule>
+      <Name>TournamentMastery</Name>
+      <DLLName>TournamentMastery.dll</DLLName>
+      <SubModuleClassType>TournamentMastery.SubModule</SubModuleClassType>
+      <Assemblies/>
+    </SubModule>
+  </SubModules>
+  <Xmls/>
+  <Localization/>
+  <Description value="Tournament Mastery: A full tournament overhaul with tracker, equipment standardizer, prize customization, betting, hosting, and MCM support."/>
+  <Url value="https://www.nexusmods.com/mountandblade2bannerlord"/>
+</Module>
